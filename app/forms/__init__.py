@@ -4,7 +4,8 @@ from wtforms import (
     FloatField,
     IntegerField,
     TextField,
-    validators
+    validators,
+    BooleanField
 )
 
 class ProductForm(Form):
@@ -14,3 +15,4 @@ class ProductForm(Form):
     price = FloatField("Price", [validators.required()], render_kw=style)
     quantity = IntegerField("Quantity", [validators.required()], render_kw=style)
     description = TextField("Description", [validators.required()], render_kw=style)
+    is_active = BooleanField("Active", default="checked", render_kw=style)

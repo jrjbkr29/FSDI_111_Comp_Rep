@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Product Catalog{% endblock title %}
+
+{% block content %}
+    {% set i = 0 %} 
+    <h1>Archived Products</h1>
+    <div class="col-md-12" style="padding: 1%;"> 
+        {% with messages = get_flashed_messages() %} 
+        {% if messages %} 
+        {% for message in messages %}
+            <div class="toast show align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+              <div class="d-flex"> 
+                    <div class="toast-body"> 
+                      {{ message }} 
+                    </div> 
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button> 
+        
+                </div>
+            </div>
+        {% endfor %}
+        {% endif %}     
+    </div> 
+    <div class="row">
+        {% for product in product_list %}
+            {% if product.active==False %}
+            <div class = "card text-white {{ 'bg-{}'.format(product.category) }}">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <h6 class="card-substitute mb-2 ">
+                    Price: {{ "${:,.2f}".format(product.price) }}
+                </h6>
+                <p class="card-text">Quantity: {{ product.quantity }}</p>
+                <div class='card-links'>
+                <a href={{ url_for("get_product_detail", pid=product.id) }} class="card-link">View Detail</a>
+                <a href={{ url_for("update_product_form", pid=product.id) }} class="card-link">Update</a>
+                <div>
+                    <form class="card-links" method="post" action='{{ url_for("restore_product", pid=product.id) }}'>
+                        <input type="hidden" name="name" value="value" /> 
+                        <a class="card-links" onclick="this.parentNode.submit();">Restore</a>
+                      </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% set i= i+1 %}
+            {% if i%4 ==0 %}
+                </div>
+                <div class="row">
+            {% endif %}
+        {% endfor %}
+        {% endwith %}
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+body {
+    padding-left: 2rem;
+}
+
+.card {
+    width: 18rem;
+    margin: 0.5%;
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card-links {
+    display: flex;
+    text-align: center;
+    align-content: center;
+    justify-content: space-between;
+}

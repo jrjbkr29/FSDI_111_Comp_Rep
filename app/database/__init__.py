@@ -10,6 +10,7 @@ class Product(db.Model):
     description = db.Column(db.Text, nullable=True)
     category = db.Column(db.Text, nullable=True)
     active = db.Column(db.Boolean, nullable=True)
+    reviews = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return "<Product %r>" % self.name

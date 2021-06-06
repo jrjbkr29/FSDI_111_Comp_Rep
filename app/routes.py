@@ -35,7 +35,9 @@ def get_archive():
 @app.route("/products/<int:pid>")
 def get_product_detail(pid):
     product = Product.query.filter_by(id=pid).first()
-    return render_template("product_detail.html", product=product)
+    form = ProductForm(request.form)
+    reviews = product.reviews.split('~')
+    return render_template("product_detail.html", product=product, form=form, reviews=reviews)
 
 @app.route("/products/inactive/<int:pid>", methods=["POST"])
 def delete_product(pid):
@@ -53,7 +55,16 @@ def restore_product(pid):
     flash("Product Restored!")
     return redirect(url_for("get_products"))
 
-
+@app.route("/products/reviews/<int:pid>", methods=["POST"])
+def add_review(pid):
+    form = ProductForm(request.form)
+    product = Product.query.filter_by(id=pid).first()
+    new_reviews = product.reviews + "~" + form.reviews.data
+    print(new_reviews)
+    product.reviews = new_reviews
+    db.session.commit()
+    flash("Review posted!")
+    return redirect(url_for("get_products"))
 
 @app.route("/products/<int:pid>", methods=["POST"])
 def update_product(pid):

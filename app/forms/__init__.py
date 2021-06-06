@@ -16,3 +16,4 @@ class ProductForm(Form):
     quantity = IntegerField("Quantity", [validators.required()], render_kw=style)
     description = TextField("Description", [validators.required()], render_kw=style)
     is_active = BooleanField("Active", default="checked", render_kw=style)
+    reviews = TextField("Create new review", [validators.required()], render_kw=style)

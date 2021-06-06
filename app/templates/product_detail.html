@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Product Detail{% endblock title %}
 
 {% block content %}
@@ -12,11 +12,30 @@
             <p>Description: {{ product.description }}</p>
             <a href={{ url_for('get_products') }}>List Products</a>
             <a href={{ url_for('update_product_form', pid=product.id) }} >Update</a>
-            <div>
-                <form class="card-links" method="post" action='{{ url_for("delete_product", pid=product.id) }}'>
-                    <input type="hidden" name="name" value="value" /> 
-                    <a class="card-links" onclick="this.parentNode.submit();">Delete</a>
-                  </form>
+                <div>
+                    <form class="card-links" method="post" action='{{ url_for("delete_product", pid=product.id) }}'>
+                        <input type="hidden" name="name" value="value" /> 
+                        <a class="card-links" onclick="this.parentNode.submit();">Delete</a>
+                    </form>
+                </div>
+                <div class="col-md-8 offset-md-2">
+                    <form method="POST" action="{{ url_for('add_review', pid=product.id ) }}" class="form" role="form">
+                        {{ form.csrf_token }}
+                        <div class="form-group col-md-12">
+                            {{ wtf.form_field(form.reviews, class='form-control', placeholder='e.g., "Amazing product!"') }}
+                        </div>
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary" style="margin-top:10px; width:100%;">Submit Review</button>
+                            </div>
+                    </form>
+                    <div>
+                        <h2>Product Reviews</h2>
+                    {% for review in reviews %}
+                        <ul class="list-group">
+                            <li class="list-group-item">{{ review }}</li>
+                        </ul>
+                    {% endfor %}
+                    </div>
                 </div>
         </div>
     </div>
